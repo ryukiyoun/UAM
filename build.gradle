@@ -1,0 +1,62 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.6'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'jacoco'
+}
+
+jacoco {
+	toolVersion = '0.8.6'
+}
+
+group = 'universty.assignment'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	//Spring Security 의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.1.RELEASE'
+
+	//Thymeleaf 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'com.github.zhanhb:thymeleaf-layout-dialect:3.0.0'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+
+	//Lombok 의존성
+	implementation 'org.projectlombok:lombok:1.18.12'
+	annotationProcessor 'org.projectlombok:lombok:1.18.16'
+
+	//H2 DB
+	implementation 'com.h2database:h2'
+
+	//Jpa 의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+//jacoco 설정
+jacocoTestReport {
+	reports {
+		xml.enabled false
+		csv.enabled false
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
